@@ -8,12 +8,37 @@ def reset_data():
     events.append(Event(1, "Tech Meetup"))
     events.append(Event(2, "Python Workshop"))
 
+def test_welcome_route():
+    client = app.test_client()
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.get_json() == {"message": "Welcome to the Events API"}
+
+
+def test_get_events():
+    client = app.test_client()
+    response = client.get("/events")
+    assert response.status_code == 200
+    data = response.get_json()
+    assert isinstance(data, list)
+    assert len(data) == 2
+    assert data[0]["title"] == "Tech Meetup"
+    assert data[1]["title"] == "Python Workshop"
+
+
 def test_create_event():
     client = app.test_client()
     response = client.post("/events", json={"title": "Hackathon"})
     assert response.status_code == 201
     data = response.get_json()
     assert "id" in data and data["title"] == "Hackathon"
+
+
+def test_create_event_missing_title():
+    client = app.test_client()
+    response = client.post("/events", json={})
+    assert response.status_code == 400
+
 
 def test_update_event():
     client = app.test_client()

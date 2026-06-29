@@ -131,6 +131,48 @@ Test your endpoints using Postman or curl:
 
 ---
 
+## API Routes
+
+### Create a new event
+
+- Endpoint: `POST /events`
+- Request body: `{ "title": "Hackathon" }`
+- Success response: `201 Created`
+- Response body:
+
+```json
+{
+  "id": 3,
+  "title": "Hackathon"
+}
+```
+
+### Update an event title
+
+- Endpoint: `PATCH /events/<id>`
+- Request body: `{ "title": "Hackathon 2025" }`
+- Success response: `200 OK`
+- Response body:
+
+```json
+{
+  "id": 1,
+  "title": "Hackathon 2025"
+}
+```
+
+### Delete an event
+
+- Endpoint: `DELETE /events/<id>`
+- Success response: `204 No Content`
+
+### Error behavior
+
+- Missing `title` in POST or PATCH returns `400 Bad Request`
+- Nonexistent event ID returns `404 Not Found`
+
+---
+
 ## Best Practices
 
 - Use RESTful nouns in routes (e.g., `/events`)
@@ -147,16 +189,20 @@ Test your endpoints using Postman or curl:
 ## Considerations
 
 **1. Input Validation**
+
 - Ensure the `title` field is provided.
 - Return a `400 Bad Request` if missing.
 
 **2. Event Not Found**
+
 - Return `404 Not Found` with a clear message when the event ID doesn't exist.
 
 **3. Reusable Logic**
+
 - Consider writing a helper function to look up events by ID.
 
 **4. Scalability**
+
 - While using a single file works here, separate concerns into modules as your API grows.
 
 ---
@@ -168,6 +214,6 @@ After completing this lab, you will:
 ✅ Know how to handle incoming JSON with Flask  
 ✅ Build routes that implement full CRUD behavior  
 ✅ Simulate persistent resource changes in memory  
-✅ Return proper HTTP status codes and structured responses  
+✅ Return proper HTTP status codes and structured responses
 
 This is a critical step in your backend developer journey. Next up: persistent databases!
